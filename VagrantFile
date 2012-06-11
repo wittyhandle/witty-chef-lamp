@@ -1,0 +1,57 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant::Config.run do |config|
+
+  # This defines the name of the box to use.
+  config.vm.box = 'freelance'
+
+  config.vm.network :hostonly, "192.168.16.32"
+
+  # If the box hasn't already been downloaded, it's pulled down from this URL and
+  # put in $HOME/.vagrant.d/boxes
+  config.vm.box_url = 'http://files.vagrantup.com/precise32.box'
+
+  # VM customizations. You can find a complete list of parameters by running 'VBoxManage modifyvm'.
+  config.vm.customize [
+    "modifyvm", :id,
+    "--name", "freelance",
+    "--memory", "1024",
+    "--cpus", "2"
+  ]
+  
+  config.vm.host_name = 'enoch.com'
+
+  # You can have Vagrant automatically mount folders.
+  # Here we're mounting this directory to ~vagrant/chef-101 on the VM
+  config.vm.share_folder "carl", "/home/vagrant/carl", "/Users/mike/Documents/webdev/clients/carl_detorres/main"
+	config.vm.share_folder "lucian", "/home/vagrant/lucian", "/Users/mike/Documents/webdev/clients/lucian_read/main"
+
+  # You can also forward ports on your VM to your local machine.
+  # Here we're forwarding port 80 on the VM to 8080 you your host.
+  #config.vm.forward_port 80, 8080
+
+  # Configuration for the Chef provisioner.
+  config.vm.provision :chef_solo do |chef|
+    chef.cookbooks_path = ["cookbooks", "site-cookbooks"]
+    chef.roles_path = "roles"
+    
+    chef.json = {
+      "www_dir" => "/var/www/carl",
+      "name" => "enoch"
+    }
+    
+    chef.add_role "phpstack"
+
+    # Run user-specific Vagrant configs. This is useful if you want install custom tools
+    # (e.g. vim, bash-complete) that not all users will want. .user_vagrant.rb shouldn't
+    # be checked into source control.
+    user_vagrant = File.join(File.dirname(__FILE__), '.user_vagrant.rb')
+    if File.exists?(user_vagrant) then
+      proc = Proc.new {}
+      eval(File.read(user_vagrant), proc.binding, user_vagrant)
+    end
+
+  end
+
+end
