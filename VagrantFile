@@ -34,7 +34,12 @@ Vagrant::Config.run do |config|
     
     chef.json = {
       "www_dir" => "/var/www/carl",
-      "name" => "enoch"
+      "name" => "enoch",
+      "mysql" => {
+        "server_root_password" => "password",
+        "server_repl_password" => "password",
+        "server_debian_password" => "password"
+      }
     }
     
     chef.add_role "phpstack"
