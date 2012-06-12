@@ -27,10 +27,6 @@ Vagrant::Config.run do |config|
   config.vm.share_folder "carl", "/home/vagrant/carl", "/Users/mike/Documents/webdev/clients/carl_detorres/main"
 	config.vm.share_folder "lucian", "/home/vagrant/lucian", "/Users/mike/Documents/webdev/clients/lucian_read/main"
 
-  # You can also forward ports on your VM to your local machine.
-  # Here we're forwarding port 80 on the VM to 8080 you your host.
-  #config.vm.forward_port 80, 8080
-
   # Configuration for the Chef provisioner.
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = ["cookbooks", "site-cookbooks"]
