@@ -33,6 +33,7 @@ Vagrant::Config.run do |config|
     chef.roles_path = "roles"
     
     chef.json = {
+      "clients" => ["carl", "lucian"],
       "www_dir" => "/var/www/carl",
       "name" => "enoch",
       "mysql" => {

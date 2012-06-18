@@ -1,26 +1,30 @@
-directory "#{node[:www_dir]}/htdocs" do
-  owner "root"
-  group "root"
-  mode "0755"
-  recursive true
-end
+node[:clients].each do |c|
 
-directory "#{node[:www_dir]}/cgi-bin" do
-  owner "root"
-  group "root"
-  mode "0755"
-end
+  directory "/var/www/#{c}/htdocs" do
+    owner "root"
+    group "root"
+    mode "0755"
+    recursive true
+  end
 
-directory "#{node[:apache][:log_dir]}/carl" do
-  owner "root"
-  group "root"
-  mode "0755"
-end
+  directory "/var/www/#{c}/cgi-bin" do
+    owner "root"
+    group "root"
+    mode "0755"
+  end
 
-web_app "carl" do
-  docroot "#{node[:www_dir]}/htdocs"
-  cgiroot "#{node[:www_dir]}/cgi-bin"
-  template "vhost.conf.erb"
-  server_admin "mikeottinger@gmail.com"
-  server_name "carl.#{node[:name]}"
+  directory "#{node[:apache][:log_dir]}/#{c}" do
+    owner "root"
+    group "root"
+    mode "0755"
+  end
+
+  web_app c do
+    docroot "/var/www/#{c}/htdocs"
+    cgiroot "/var/www/#{c}/cgi-bin"
+    template "vhost.conf.erb"
+    server_admin "mikeottinger@gmail.com"
+    server_name "#{c}.#{node[:name]}"
+  end
+
 end
