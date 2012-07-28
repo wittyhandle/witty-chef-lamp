@@ -1,10 +1,14 @@
 node[:clients].each do |c|
-
-  directory "/var/www/#{c}/htdocs" do
+  
+  directory "/var/www/#{c}" do
     owner "root"
     group "root"
     mode "0755"
     recursive true
+  end
+
+  link "/var/www/#{c}/htdocs" do
+    to "/home/vagrant/#{c}/main"
   end
 
   directory "/var/www/#{c}/cgi-bin" do

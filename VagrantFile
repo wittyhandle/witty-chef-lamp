@@ -22,10 +22,9 @@ Vagrant::Config.run do |config|
   
   config.vm.host_name = 'enoch.com'
 
-  # You can have Vagrant automatically mount folders.
-  # Here we're mounting this directory to ~vagrant/chef-101 on the VM
-  config.vm.share_folder "carl", "/home/vagrant/carl", "/Users/mike/Documents/webdev/clients/carl_detorres/main"
-	config.vm.share_folder "lucian", "/home/vagrant/lucian", "/Users/mike/Documents/webdev/clients/lucian_read/main"
+  config.vm.share_folder "carl", "/home/vagrant/carl", "/Users/mike/Documents/webdev/clients/carl_detorres", :group => "www-data"  
+	config.vm.share_folder "lucian", "/home/vagrant/lucian", "/Users/mike/Documents/webdev/clients/lucian_read", :group => "www-data"
+	
 
   # Configuration for the Chef provisioner.
   config.vm.provision :chef_solo do |chef|
