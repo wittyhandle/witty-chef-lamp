@@ -11,6 +11,8 @@ Vagrant::Config.run do |config|
   # If the box hasn't already been downloaded, it's pulled down from this URL and
   # put in $HOME/.vagrant.d/boxes
   config.vm.box_url = 'http://files.vagrantup.com/precise32.box'
+  config.vm.forward_port 22, 2222
+  config.vm.forward_port 3306, 3306
 
   # VM customizations. You can find a complete list of parameters by running 'VBoxManage modifyvm'.
   config.vm.customize [
@@ -38,7 +40,8 @@ Vagrant::Config.run do |config|
       "mysql" => {
         "server_root_password" => "password",
         "server_repl_password" => "password",
-        "server_debian_password" => "password"
+        "server_debian_password" => "password",
+        "allow_remote_root" => true
       }
     }
     
